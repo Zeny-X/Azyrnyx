@@ -1,90 +1,59 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gacha Vault · Aether Shards</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azyrnyx</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Floating animated background shapes are purely CSS (in styles.css) -->
-  <div class="bg"></div>
 
-  <header class="topbar">
-    <div class="brand">
-      <h1>Gacha Vault</h1>
-      <p class="tag">private server gifts — for you & your friend</p>
-    </div>
+<!-- Background video -->
+<video autoplay muted loop id="bg-video">
+  <source src="Background_loop.mp4" type="video/mp4">
+</video>
 
-    <div class="balance" title="Your current shards">
-      <!-- fallback SVG crystal icon (inline) -->
-      <svg class="crystal-icon" viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
-        <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#9be7ff"/><stop offset="1" stop-color="#6b6bff"/></linearGradient></defs>
-        <path d="M32 2 L44 24 L32 62 L20 24 Z" fill="url(#g1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-      </svg>
-      <div class="balance-text">
-        <div id="shard-count">0</div>
-        <small id="currency-name">Aether Shards</small>
-      </div>
-    </div>
+<!-- Floating Aether Shards -->
+<div id="shards-container"></div>
+
+<!-- Dashboard content -->
+<div class="dashboard">
+  <header>
+    <h1>Azyrnyx</h1>
+    <div class="shards-balance">0 Aether Shards</div>
   </header>
 
-  <main class="container">
-    <nav class="tabs" role="tablist">
-      <button class="tab-btn active" data-tab="home">Home</button>
-      <button class="tab-btn" data-tab="quests">Daily Quests</button>
-      <button class="tab-btn" data-tab="spin">Spin</button>
-      <button class="tab-btn" data-tab="vault">Vault</button>
-    </nav>
+  <nav>
+    <button class="tab active" data-tab="home">Home</button>
+    <button class="tab" data-tab="quests">Daily Quests</button>
+    <button class="tab" data-tab="spin">Spin</button>
+    <button class="tab" data-tab="vault">Vault</button>
+  </nav>
 
+  <main>
     <section id="home" class="tab-content active">
-      <div class="hero-card">
-        <h2>Welcome, traveler</h2>
-        <p>Collect Aether Shards, solve daily puzzles, and spin the vault for unique items (wood → netherite). This is your private, stylish gacha playground.</p>
-
-        <div class="cta-row">
-          <button id="test-add" class="btn">Add 50 Shards (test)</button>
-          <button id="open-spin" class="btn ghost">Go to Spin</button>
-        </div>
-      </div>
-
-      <div class="preview-grid">
-        <div class="preview-card">
-          <h3>Daily Quests</h3>
-          <p>Timed rewards, puzzles, and a daily login claim.</p>
-        </div>
-        <div class="preview-card">
-          <h3>Gacha Spin</h3>
-          <p>Animated pulls. Rarities from Common → Legendary → Mythic (very rare).</p>
-        </div>
-        <div class="preview-card">
-          <h3>Vault</h3>
-          <p>Special pulls that cost shards — can win rare Minecraft items (symbolic/giftable on your server).</p>
-        </div>
-      </div>
+      <h2>Welcome, traveler</h2>
+      <p>Collect Aether Shards, solve daily puzzles, and spin the vault for unique items.</p>
     </section>
 
     <section id="quests" class="tab-content">
-      <div class="placeholder">Daily quests UI will be implemented next. It will include: daily login claim (resets every 24h), puzzles, and timed stay rewards.</div>
+      <h2>Daily Quests</h2>
+      <p>Timed rewards, puzzles, and a daily login claim will appear here.</p>
     </section>
 
     <section id="spin" class="tab-content">
-      <div class="placeholder">Spin UI (gacha wheel/cards) will be implemented in the next steps.</div>
+      <h2>Gacha Spin</h2>
+      <p>Animated pulls with rarities from Common → Legendary → Mythic.</p>
     </section>
 
     <section id="vault" class="tab-content">
-      <div class="placeholder">Owner-only vault (special high-cost pulls). We'll protect it with a simple passphrase or local-only secret so only you can access it.</div>
+      <h2>Vault</h2>
+      <p>Special pulls that cost shards — rare Minecraft items as gifts.</p>
     </section>
   </main>
+</div>
 
-  <footer class="foot">
-    <small>Made with anime edits + AI art — customize images with your Midjourney/Gemini prompts (I’ll give exact prompts).</small>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
