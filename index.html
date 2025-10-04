@@ -1,79 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Azyrnyx</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    /* Full page background gradient */
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0b1530, #071126);
-      overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-    }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gacha Vault · Aether Shards</title>
 
-    /* Floating background shards */
-    .shard {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle, #7afcff 0%, #6b6bff 100%);
-      border-radius: 50%;
-      animation: float 10s linear infinite;
-      opacity: 0.6;
-    }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0) rotate(0deg); }
-      50% { transform: translateY(-200px) translateX(100px) rotate(180deg); }
-      100% { transform: translateY(0) translateX(0) rotate(360deg); }
-    }
-
-    /* Glowing title */
-    h1 {
-      font-size: 4rem;
-      text-align: center;
-      color: #7afcff;
-      text-shadow:
-        0 0 10px #7afcff,
-        0 0 20px #7afcff,
-        0 0 30px #6b6bff,
-        0 0 40px #6b6bff,
-        0 0 50px #6b6bff,
-        0 0 60px #6b6bff;
-      animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #7afcff, 0 0 20px #7afcff; }
-      to { text-shadow: 0 0 20px #7afcff, 0 0 40px #6b6bff, 0 0 60px #6b6bff; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Floating animated background shapes are purely CSS (in styles.css) -->
+  <div class="bg"></div>
 
-  <h1>Azyrnyx</h1>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Gacha Vault</h1>
+      <p class="tag">private server gifts — for you & your friend</p>
+    </div>
 
-  <script>
-    // Create 30 floating shards randomly
-    for (let i = 0; i < 30; i++) {
-      const shard = document.createElement('div');
-      shard.className = 'shard';
-      shard.style.left = Math.random() * window.innerWidth + 'px';
-      shard.style.top = Math.random() * window.innerHeight + 'px';
-      shard.style.width = 10 + Math.random() * 20 + 'px';
-      shard.style.height = shard.style.width;
-      shard.style.animationDuration = 5 + Math.random() * 10 + 's';
-      document.body.appendChild(shard);
-    }
-  </script>
+    <div class="balance" title="Your current shards">
+      <!-- fallback SVG crystal icon (inline) -->
+      <svg class="crystal-icon" viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
+        <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#9be7ff"/><stop offset="1" stop-color="#6b6bff"/></linearGradient></defs>
+        <path d="M32 2 L44 24 L32 62 L20 24 Z" fill="url(#g1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      </svg>
+      <div class="balance-text">
+        <div id="shard-count">0</div>
+        <small id="currency-name">Aether Shards</small>
+      </div>
+    </div>
+  </header>
 
+  <main class="container">
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="quests">Daily Quests</button>
+      <button class="tab-btn" data-tab="spin">Spin</button>
+      <button class="tab-btn" data-tab="vault">Vault</button>
+    </nav>
+
+    <section id="home" class="tab-content active">
+      <div class="hero-card">
+        <h2>Welcome, traveler</h2>
+        <p>Collect Aether Shards, solve daily puzzles, and spin the vault for unique items (wood → netherite). This is your private, stylish gacha playground.</p>
+
+        <div class="cta-row">
+          <button id="test-add" class="btn">Add 50 Shards (test)</button>
+          <button id="open-spin" class="btn ghost">Go to Spin</button>
+        </div>
+      </div>
+
+      <div class="preview-grid">
+        <div class="preview-card">
+          <h3>Daily Quests</h3>
+          <p>Timed rewards, puzzles, and a daily login claim.</p>
+        </div>
+        <div class="preview-card">
+          <h3>Gacha Spin</h3>
+          <p>Animated pulls. Rarities from Common → Legendary → Mythic (very rare).</p>
+        </div>
+        <div class="preview-card">
+          <h3>Vault</h3>
+          <p>Special pulls that cost shards — can win rare Minecraft items (symbolic/giftable on your server).</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quests" class="tab-content">
+      <div class="placeholder">Daily quests UI will be implemented next. It will include: daily login claim (resets every 24h), puzzles, and timed stay rewards.</div>
+    </section>
+
+    <section id="spin" class="tab-content">
+      <div class="placeholder">Spin UI (gacha wheel/cards) will be implemented in the next steps.</div>
+    </section>
+
+    <section id="vault" class="tab-content">
+      <div class="placeholder">Owner-only vault (special high-cost pulls). We'll protect it with a simple passphrase or local-only secret so only you can access it.</div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <small>Made with anime edits + AI art — customize images with your Midjourney/Gemini prompts (I’ll give exact prompts).</small>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
