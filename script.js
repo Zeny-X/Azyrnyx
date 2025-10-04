@@ -11,7 +11,7 @@ for(let i=0;i<30;i++){
   shardsContainer.appendChild(shard);
 }
 
-// Tab switching
+// Tabs
 const tabs = document.querySelectorAll('nav .tab');
 const contents = document.querySelectorAll('.tab-content');
 
@@ -21,6 +21,7 @@ tabs.forEach(tab => {
     tab.classList.add('active');
     const target = tab.getAttribute('data-tab');
     contents.forEach(c => c.classList.remove('active'));
-    document.getElementById(target).classList.add('active');
+    const activeSection = document.getElementById(target);
+    activeSection.classList.add('active');
   });
 });
