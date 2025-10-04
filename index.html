@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azyrnyx</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Full page background gradient */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0b1530, #071126);
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    /* Floating background shards */
+    .shard {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #7afcff 0%, #6b6bff 100%);
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); }
+      50% { transform: translateY(-200px) translateX(100px) rotate(180deg); }
+      100% { transform: translateY(0) translateX(0) rotate(360deg); }
+    }
+
+    /* Glowing title */
+    h1 {
+      font-size: 4rem;
+      text-align: center;
+      color: #7afcff;
+      text-shadow:
+        0 0 10px #7afcff,
+        0 0 20px #7afcff,
+        0 0 30px #6b6bff,
+        0 0 40px #6b6bff,
+        0 0 50px #6b6bff,
+        0 0 60px #6b6bff;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #7afcff, 0 0 20px #7afcff; }
+      to { text-shadow: 0 0 20px #7afcff, 0 0 40px #6b6bff, 0 0 60px #6b6bff; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Azyrnyx</h1>
+
+  <script>
+    // Create 30 floating shards randomly
+    for (let i = 0; i < 30; i++) {
+      const shard = document.createElement('div');
+      shard.className = 'shard';
+      shard.style.left = Math.random() * window.innerWidth + 'px';
+      shard.style.top = Math.random() * window.innerHeight + 'px';
+      shard.style.width = 10 + Math.random() * 20 + 'px';
+      shard.style.height = shard.style.width;
+      shard.style.animationDuration = 5 + Math.random() * 10 + 's';
+      document.body.appendChild(shard);
+    }
+  </script>
+
+</body>
+</html>
