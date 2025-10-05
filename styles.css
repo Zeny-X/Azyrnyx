@@ -75,9 +75,12 @@ header {
 }
 
 .shard-icon {
-  width: 32px; /* increased size */
-  height: 32px;
+  width: 60px;  /* bigger size */
+  height: 60px;
   margin-right: 8px;
+}
+.shards-balance span {
+  vertical-align: middle;
 }
 
 /* Navigation Tabs */
