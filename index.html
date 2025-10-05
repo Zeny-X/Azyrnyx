@@ -17,13 +17,27 @@
 <!-- Floating golden Aether Shards -->
 <div id="shards-container"></div>
 
+<!-- Background music -->
+<audio id="bg-music" autoplay loop>
+  <source src="bg_music.m4a" type="audio/m4a">
+</audio>
+
+<!-- Music toggle button -->
+<div id="music-toggle">
+  <svg viewBox="0 0 50 50">
+    <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
+    <g id="bars"></g>
+  </svg>
+</div>
+
 <!-- Dashboard content -->
 <div class="dashboard">
   <header>
     <h1 class="site-title">Azyrnyx</h1>
-   <div class="shards-balance">
-  <img src="shard.png" alt="Aether Shard" class="shard-icon"><span>0 Aether Shards</span>
-  </div>
+    <div class="shards-balance">
+      <img src="shard.png" alt="Aether Shard" class="shard-icon">
+      <span>0 Aether Shards</span>
+    </div>
   </header>
 
   <nav>
