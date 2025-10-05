@@ -75,12 +75,10 @@ header {
 }
 
 .shard-icon {
-  width: 60px;  /* bigger size */
+  width: 60px;  /* big and visible */
   height: 60px;
-  margin-right: 8px;
-}
-.shards-balance span {
-  vertical-align: middle;
+  margin-right: 4px; /* smaller gap */
+  vertical-align: middle; /* align with text */
 }
 
 /* Navigation Tabs */
