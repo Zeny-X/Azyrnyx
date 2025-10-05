@@ -1,4 +1,6 @@
+// ============================
 // Floating golden Aether Shards
+// ============================
 const shardsContainer = document.getElementById('shards-container');
 for(let i=0;i<30;i++){
   const shard = document.createElement('div');
@@ -11,7 +13,9 @@ for(let i=0;i<30;i++){
   shardsContainer.appendChild(shard);
 }
 
+// ============================
 // Tabs with animated content
+// ============================
 const tabs = document.querySelectorAll('nav .tab');
 const contents = document.querySelectorAll('.tab-content');
 
@@ -24,7 +28,7 @@ tabs.forEach(tab => {
       c.classList.remove('active');
       c.querySelectorAll('h2, p').forEach(el => {
         el.style.animation = 'none';
-        void el.offsetWidth; // reflow
+        void el.offsetWidth; // reflow to restart animation
         el.style.animation = '';
       });
     });
@@ -33,12 +37,25 @@ tabs.forEach(tab => {
   });
 });
 
-// Background music toggle & visualiser
+// ============================
+// Background music control
+// ============================
 const music = document.getElementById('bg-music');
 const musicToggle = document.getElementById('music-toggle');
 const barsContainer = document.getElementById('bars');
 
-// Create 4 bars for visualiser
+// initially muted to allow autoplay
+music.muted = true;
+music.play().catch(()=>{}); // attempt to play
+
+// Toggle music on click
+musicToggle.addEventListener('click', ()=>{
+  music.muted = !music.muted;
+});
+
+// ============================
+// Music visualiser bars
+// ============================
 for(let i=0;i<4;i++){
   const line = document.createElementNS("http://www.w3.org/2000/svg","line");
   line.setAttribute("x1", 15 + i*8);
@@ -57,8 +74,3 @@ setInterval(()=>{
     line.setAttribute("y2", 25 + height/2);
   });
 }, 300);
-
-// Click to mute/unmute
-musicToggle.addEventListener('click', ()=>{
-  music.muted = !music.muted;
-});
