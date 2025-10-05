@@ -5,7 +5,7 @@ for(let i=0;i<30;i++){
   shard.className = 'shard';
   shard.style.left = Math.random()*window.innerWidth+'px';
   shard.style.top = Math.random()*window.innerHeight+'px';
-  shard.style.width = 8 + Math.random()*12 + 'px';
+  shard.style.width = 16 + Math.random()*12 + 'px';
   shard.style.height = shard.style.width;
   shard.style.animationDuration = 6 + Math.random()*10+'s';
   shardsContainer.appendChild(shard);
