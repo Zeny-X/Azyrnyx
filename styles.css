@@ -20,13 +20,13 @@ body, html {
   z-index: -2;
 }
 
-/* Floating Aether Shards */
+/* Floating Aether Shards PNG */
 #shards-container .shard {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffd700 0%, #ffae00 100%);
+  width: 20px;
+  height: 20px;
+  background: url('shard.png') no-repeat center center;
+  background-size: contain;
   opacity: 0.75;
   animation: float 12s linear infinite;
 }
@@ -44,8 +44,7 @@ body, html {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
-  padding-top: 50px;
+  padding-top: 20px;
 }
 
 /* Header */
@@ -54,21 +53,37 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  position: fixed;
+  width: 90%;
+  max-width: 1200px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
 }
 
-header h1 {
+.site-title {
   font-size: 3rem;
   text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
 }
 
 .shards-balance {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-shadow: 0 0 10px #ffd700;
+  display: flex;
+  align-items: center;
+}
+
+.shard-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
 }
 
 /* Navigation Tabs */
 nav {
-  margin-bottom: 30px;
+  margin: 120px auto 30px auto;
+  text-align: center;
 }
 
 nav .tab {
@@ -83,13 +98,11 @@ nav .tab {
   box-shadow: 0 0 10px #ffd700;
 }
 
-/* Hover animation */
 nav .tab:hover {
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 0 20px #ffd700, 0 0 40px #ffae00;
 }
 
-/* Active tab */
 nav .tab.active {
   background: rgba(255, 215, 0, 0.25);
   box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
@@ -118,7 +131,6 @@ nav .tab.active {
   text-shadow: 0 0 10px #ffd700;
 }
 
-/* Add sparkle hover effect to dashboard sections */
 .tab-content p:hover {
   text-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
   transform: scale(1.02);
