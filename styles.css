@@ -20,13 +20,13 @@ body, html {
   z-index: -2;
 }
 
-/* Floating Aether Shards PNG */
+/* Floating golden Aether Shards */
 #shards-container .shard {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: url('shard.png') no-repeat center center;
-  background-size: contain;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd700 0%, #ffae00 100%);
   opacity: 0.75;
   animation: float 12s linear infinite;
 }
@@ -68,16 +68,16 @@ header {
 }
 
 .shards-balance {
-  font-size: 1.2rem;
+  font-size: 1.4rem; /* slightly bigger */
   text-shadow: 0 0 10px #ffd700;
   display: flex;
   align-items: center;
 }
 
 .shard-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
+  width: 32px; /* increased size */
+  height: 32px;
+  margin-right: 8px;
 }
 
 /* Navigation Tabs */
@@ -126,9 +126,14 @@ nav .tab.active {
   transform: translateY(0);
 }
 
-.tab-content h2 {
-  font-size: 2rem;
-  text-shadow: 0 0 10px #ffd700;
+/* Animate content text on tab select */
+.tab-content h2, .tab-content p {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+  0% {opacity: 0; transform: translateY(20px);}
+  100% {opacity: 1; transform: translateY(0);}
 }
 
 .tab-content p:hover {
