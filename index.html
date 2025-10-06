@@ -17,18 +17,20 @@
 <!-- Floating golden Aether Shards -->
 <div id="shards-container"></div>
 
-<!-- Background music -->
-<audio id="bg-music" autoplay loop>
+<!-- Background Music -->
+<audio id="bg-music" autoplay loop muted>
   <source src="bg_music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Music toggle button -->
-<div id="music-toggle">
-  <svg viewBox="0 0 50 50">
-    <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
-    <g id="bars"></g>
-  </svg>
-</div>
+<!-- Music Toggle -->
+<button id="music-toggle" aria-label="Toggle background music">
+    <svg viewBox="0 0 50 50">
+        <text id="music-text" x="25" y="45" text-anchor="middle" font-size="8" fill="#ffd700"></text>
+        
+        <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
+        <g id="bars"></g>
+    </svg>
+</button>
 
 <!-- Dashboard content -->
 <div class="dashboard">
