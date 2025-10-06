@@ -38,39 +38,109 @@ tabs.forEach(tab => {
 });
 
 // ============================
-// Background music control
+// DOM Elements
 // ============================
-const music = document.getElementById('bg-music');
+const music = document.getElementById('bg_music.mp3');
 const musicToggle = document.getElementById('music-toggle');
 const barsContainer = document.getElementById('bars');
+let animationInterval; // To store the interval ID for the bars animation
 
-// initially muted to allow autoplay
+// ============================
+// Music Control
+// ============================
+
+/**
+ * Updates the appearance of the music toggle button based on the music state.
+ */
+function updateMusicToggle() {
+    if (music.muted) {
+        musicToggle.textContent = '🎵 Enable Sound (Click)';
+        musicToggle.classList.remove('active');
+        stopBarAnimation();
+    } else {
+        musicToggle.textContent = '🔊 Mute Sound (Click)';
+        musicToggle.classList.add('active');
+        startBarAnimation();
+    }
+}
+
+// 1. Initially Muted Autoplay Attempt
+// The best practice is to start muted for browsers to allow autoplay.
 music.muted = true;
-music.play().catch(()=>{}); // attempt to play
+music.play()
+    .then(() => {
+        // Autoplay succeeded (it's muted)
+        updateMusicToggle();
+        musicToggle.style.display = 'block'; // Show the button
+    })
+    .catch(error => {
+        // Autoplay failed (user must interact first)
+        console.warn("Autoplay was prevented. User must click to start music.");
+        updateMusicToggle();
+        musicToggle.style.display = 'block'; // Show button, it will be in the 'muted' state
+    });
 
-// Toggle music on click
-musicToggle.addEventListener('click', ()=>{
-  music.muted = !music.muted;
+// 2. Toggle Music on Click
+musicToggle.addEventListener('click', () => {
+    // Toggle mute state
+    music.muted = !music.muted;
+    
+    // If we are unmuting, ensure it starts playing if it was paused
+    if (!music.muted && music.paused) {
+        music.play().catch(e => console.error("Error playing music:", e));
+    }
+    
+    updateMusicToggle();
 });
 
 // ============================
-// Music visualiser bars
+// Music Visualiser Bars
 // ============================
-for(let i=0;i<4;i++){
-  const line = document.createElementNS("http://www.w3.org/2000/svg","line");
-  line.setAttribute("x1", 15 + i*8);
-  line.setAttribute("y1", 15);
-  line.setAttribute("x2", 15 + i*8);
-  line.setAttribute("y2", 35);
-  barsContainer.appendChild(line);
+
+// 1. Create the bars (using SVG lines as in your original code)
+const NUMBER_OF_BARS = 4;
+for(let i = 0; i < NUMBER_OF_BARS; i++){
+    // Create an SVG line element
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    
+    // Set fixed position, the animation will change the y-coordinates (height)
+    line.setAttribute("x1", 15 + i * 8);
+    line.setAttribute("y1", 25); // Start at middle
+    line.setAttribute("x2", 15 + i * 8);
+    line.setAttribute("y2", 25); // End at middle (zero height)
+    line.classList.add('visualizer-bar');
+    
+    barsContainer.appendChild(line);
 }
 
-// Animate visualiser
-setInterval(()=>{
-  const lines = barsContainer.querySelectorAll("line");
-  lines.forEach(line=>{
-    const height = 10 + Math.random()*15;
-    line.setAttribute("y1", 25 - height/2);
-    line.setAttribute("y2", 25 + height/2);
-  });
-}, 300);
+// 2. Animate Visualiser Logic
+function animateBars() {
+    const lines = barsContainer.querySelectorAll(".visualizer-bar");
+    lines.forEach(line => {
+        // Animate height randomly
+        const height = 10 + Math.random() * 15; // Random height between 10 and 25
+        line.setAttribute("y1", 25 - height / 2); // Top coordinate
+        line.setAttribute("y2", 25 + height / 2); // Bottom coordinate
+    });
+}
+
+// 3. Start/Stop Animation based on music state
+function startBarAnimation() {
+    // Clear any existing interval first
+    stopBarAnimation();
+    // Start animation, updating every 300ms
+    animationInterval = setInterval(animateBars, 300);
+}
+
+function stopBarAnimation() {
+    clearInterval(animationInterval);
+    // Reset bars to a flat, non-animated state
+    const lines = barsContainer.querySelectorAll(".visualizer-bar");
+    lines.forEach(line => {
+        line.setAttribute("y1", 25);
+        line.setAttribute("y2", 25);
+    });
+}
+
+// Ensure the initial state is applied
+updateMusicToggle();
