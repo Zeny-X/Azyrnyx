@@ -23,6 +23,7 @@ tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
+
     const target = tab.getAttribute('data-tab');
     contents.forEach(c => {
       c.classList.remove('active');
@@ -32,6 +33,7 @@ tabs.forEach(tab => {
         el.style.animation = '';
       });
     });
+
     const activeSection = document.getElementById(target);
     activeSection.classList.add('active');
   });
@@ -61,9 +63,7 @@ musicToggle.addEventListener('click', (e) => {
   music.muted = !music.muted;
 });
 
-// ============================
 // Music visualiser bars
-// ============================
 for (let i = 0; i < 4; i++) {
   const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
   line.setAttribute("x1", 15 + i * 8);
@@ -83,63 +83,114 @@ setInterval(() => {
 }, 300);
 
 // ============================
-// Modals (Login & Redeem)
+// LOGIN & REDEEM MODALS
 // ============================
-const loginModal = document.getElementById('login-modal');
-const redeemModal = document.getElementById('redeem-modal');
-const shardsDisplay = document.querySelector('#shards-display span');
 
-let user = null;
-let userShards = 0;
+// Create modal container
+const modalContainer = document.createElement('div');
+modalContainer.id = 'modal-container';
+document.body.appendChild(modalContainer);
 
-// Show login modal if no user
-function showLogin() {
-  loginModal.classList.add('active');
+function showModal(contentHTML) {
+  modalContainer.innerHTML = contentHTML;
+  modalContainer.classList.add('active');
 }
 
-function showRedeem() {
-  redeemModal.classList.add('active');
+function closeModal() {
+  modalContainer.classList.remove('active');
+  setTimeout(() => { modalContainer.innerHTML = ''; }, 300);
 }
 
-document.getElementById('login-btn').addEventListener('click', async () => {
-  const username = document.getElementById('login-username').value.trim();
-  if (!username) return alert("Enter username");
-  // simulate backend login
-  user = username;
-  loginModal.classList.remove('active');
-  alert(`Logged in as ${user}`);
-});
+// Overlay blur & vignette handled via CSS on #modal-container.active
 
-// Click on Shards balance to redeem
-shardsDisplay.parentElement.addEventListener('click', () => {
-  if (!user) return showLogin();
-  showRedeem();
-});
+// ============================
+// Persistent login
+// ============================
+let currentUser = localStorage.getItem('azyUser') || null;
 
-document.getElementById('redeem-btn').addEventListener('click', async () => {
-  const code = document.getElementById('redeem-code').value.trim();
-  if (!code) return alert("Enter code");
-  // Call backend API
-  try {
-    const res = await fetch(`https://azyrnyx-backend.onrender.com/redeem?user=${user}&code=${code}`);
-    const data = await res.json();
-    if (data.success) {
-      userShards += data.amount;
-      shardsDisplay.textContent = `${userShards} Aether Shards`;
-      alert(`Redeemed ${data.amount} shards!`);
-      redeemModal.classList.remove('active');
-    } else {
-      alert(data.message);
-    }
-  } catch (err) {
-    console.log(err);
-    alert("Error redeeming code.");
+// Open modal when clicking on shards
+const shardBalance = document.querySelector('.shards-balance');
+shardBalance.addEventListener('click', () => {
+  if (!currentUser) {
+    showLoginModal();
+  } else {
+    showRedeemModal();
   }
 });
 
-// Close modals on click outside
-document.querySelectorAll('.modal-overlay').forEach(modal => {
-  modal.addEventListener('click', e => {
-    if (e.target === modal) modal.classList.remove('active');
+function showLoginModal() {
+  showModal(`
+    <div class="modal-content">
+      <h2>Login</h2>
+      <input type="text" id="login-username" placeholder="Enter username">
+      <div class="modal-message" id="login-msg"></div>
+      <button id="login-btn">Login</button>
+      <button class="close-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  `);
+
+  document.getElementById('login-btn').addEventListener('click', () => {
+    const username = document.getElementById('login-username').value.trim();
+    const msg = document.getElementById('login-msg');
+    if (username.length < 1) {
+      msg.textContent = "Please enter a username";
+      msg.classList.add('error');
+      return;
+    }
+    currentUser = username;
+    localStorage.setItem('azyUser', username);
+    msg.textContent = `Logged in as ${username}`;
+    msg.classList.remove('error');
+    msg.classList.add('success');
+
+    setTimeout(() => {
+      closeModal();
+    }, 1500);
   });
-});
+}
+
+function showRedeemModal() {
+  showModal(`
+    <div class="modal-content">
+      <h2>Redeem Shards</h2>
+      <input type="text" id="redeem-code" placeholder="Enter code">
+      <div class="modal-message" id="redeem-msg"></div>
+      <button id="redeem-btn">Redeem</button>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  `);
+
+  document.getElementById('redeem-btn').addEventListener('click', async () => {
+    const code = document.getElementById('redeem-code').value.trim();
+    const msg = document.getElementById('redeem-msg');
+
+    if (!code) {
+      msg.textContent = "Enter a code!";
+      msg.classList.add('error');
+      return;
+    }
+
+    try {
+      const res = await fetch(`https://azyrnyx-backend.onrender.com/redeem?user=${currentUser}&code=${code}`);
+      const data = await res.json();
+
+      if (data.success) {
+        // Update shards balance on page
+        const balanceSpan = document.querySelector('.shards-balance span');
+        let currentShards = parseInt(balanceSpan.textContent) || 0;
+        balanceSpan.textContent = `${currentShards + data.amount} Aether Shards`;
+        msg.textContent = data.message;
+        msg.classList.remove('error');
+        msg.classList.add('success');
+      } else {
+        msg.textContent = data.message;
+        msg.classList.remove('success');
+        msg.classList.add('error');
+      }
+    } catch (err) {
+      msg.textContent = "Server error. Try again later.";
+      msg.classList.remove('success');
+      msg.classList.add('error');
+    }
+  });
+}
