@@ -224,3 +224,92 @@ nav .tab.active {
   0% {opacity:0; transform: scale(0.8);}
   100% {opacity:1; transform: scale(1);}
 }
+
+/* Modal container */
+#modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px) brightness(0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+#modal-container.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal content */
+.modal-content {
+  background: rgba(0,0,0,0.75);
+  border: 2px solid #ffd700;
+  padding: 20px;
+  border-radius: 15px;
+  min-width: 300px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
+  animation: modalFade 0.3s ease forwards;
+}
+
+@keyframes modalFade {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px 0;
+  width: 80%;
+}
+
+.modal-content button {
+  background: rgba(255, 215, 0, 0.25);
+  border: 2px solid #ffd700;
+  color: #fff;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
+}
+
+.modal-message {
+  margin: 5px 0 10px;
+  min-height: 20px;
+  font-size: 0.9rem;
+}
+
+.modal-message.success {
+  color: #00ffea;
+  text-shadow: 0 0 8px #00ffea, 0 0 15px #00aabb;
+}
+
+.modal-message.error {
+  color: #ff5c5c;
+  text-shadow: 0 0 8px #ff5c5c, 0 0 15px #aa0000;
+}
+
+/* Close button specific style */
+.close-btn {
+  background: rgba(255,0,0,0.3);
+  border: 1px solid #ff5c5c;
+}
+.close-btn:hover {
+  background: rgba(255,0,0,0.5);
+}
