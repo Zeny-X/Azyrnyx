@@ -35,7 +35,7 @@
 <div class="dashboard">
   <header>
     <h1 class="site-title">Azyrnyx</h1>
-    <div class="shards-balance">
+    <div class="shards-balance" id="shards-display">
       <img src="shard.png" alt="Aether Shard" class="shard-icon">
       <span>0 Aether Shards</span>
     </div>
@@ -55,14 +55,34 @@
 
     <section id="quests" class="tab-content">
       <h2>Daily Quests</h2>
-      <p>Timed rewards, puzzles, and a daily login claim will appear here.</p>
+      <p>Complete quests every day to earn Aether Shards! Rewards vary based on difficulty. Remember to claim your rewards manually — unclaimed rewards expire after 12 hours. Aether Shards are used to Convene.</p>
+      <button id="open-quests">View Quests</button>
     </section>
-    
+
     <section id="convene" class="tab-content">
       <h2>Convene</h2>
       <p>Special pulls that cost shards — rare Minecraft items as gifts.</p>
     </section>
   </main>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <h2>Login to Azyrnyx</h2>
+    <input type="text" id="login-username" placeholder="Enter username">
+    <button id="login-btn">Login</button>
+  </div>
+</div>
+
+<!-- Redeem Modal -->
+<div class="modal-overlay" id="redeem-modal">
+  <div class="modal-box">
+    <h2>Redeem Shards</h2>
+    <p>Enter your weekly code to claim Aether Shards!</p>
+    <input type="text" id="redeem-code" placeholder="Enter code">
+    <button id="redeem-btn">Redeem</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
