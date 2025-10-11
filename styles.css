@@ -1,14 +1,22 @@
-/* Reset & fonts */
-body, html {
+/* ==========================
+   Global Styles
+========================== */
+* {
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: 'Orbitron', sans-serif;
-  color: #fff;
-  overflow: hidden;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Background video */
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ==========================
+   Background Video
+========================== */
 #bg-video {
   position: fixed;
   top: 0;
@@ -16,133 +24,134 @@ body, html {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(2px) brightness(55%);
+  filter: blur(45%) brightness(0.8);
   z-index: -2;
 }
 
-/* Floating golden Aether Shards */
-#shards-container .shard {
+/* ==========================
+   Floating Shards
+========================== */
+#shards-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.shard {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  background: gold;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffd700 0%, #ffae00 100%);
   opacity: 0.75;
-  animation: float 12s linear infinite;
+  animation-name: float;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
 @keyframes float {
-  0% { transform: translateY(0) rotate(0deg);}
-  50% { transform: translateY(-200px) translateX(80px) rotate(180deg);}
-  100% { transform: translateY(0) rotate(360deg);}
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-30px) translateX(10px); }
+  100% { transform: translateY(0) translateX(0); }
 }
 
-/* Dashboard container */
-.dashboard {
-  position: relative;
-  z-index: 1;
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
-/* Header */
+/* ==========================
+   Header
+========================== */
 header {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  position: fixed;
-  width: 90%;
-  max-width: 1200px;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+  color: white;
+  z-index: 10;
 }
 
 .site-title {
   font-size: 3rem;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+  font-weight: bold;
 }
 
 .shards-balance {
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 2px; /* tight gap */
-  font-size: 1.4rem;
-  text-shadow: 0 0 10px #ffd700;
+  gap: 5px;
 }
 
 .shard-icon {
-  width: 60px;  /* big */
-  height: 60px;
+  width: 50px;
+  height: 50px;
 }
 
-/* Navigation Tabs */
+/* ==========================
+   Tabs
+========================== */
 nav {
-  margin: 120px auto 30px auto;
-  text-align: center;
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
 }
 
 nav .tab {
-  background: rgba(0,0,0,0.35);
-  border: 2px solid #ffd700;
-  padding: 10px 20px;
-  margin: 0 5px;
-  color: #fff;
   cursor: pointer;
-  border-radius: 10px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px #ffd700;
+  color: white;
+  font-weight: bold;
 }
 
 nav .tab:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 0 20px #ffd700, 0 0 40px #ffae00;
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.2);
 }
 
 nav .tab.active {
-  background: rgba(255, 215, 0, 0.25);
-  box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-5px);
 }
 
-/* Tab Content */
+/* ==========================
+   Main Content
+========================== */
+main {
+  margin-top: 200px;
+  padding: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
 .tab-content {
   display: none;
-  background: rgba(0,0,0,0.35);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #ffae00;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease;
+  animation: fadeIn 0.5s;
 }
 
 .tab-content.active {
   display: block;
-  opacity: 1;
-  transform: translateY(0);
 }
 
-/* Animate content text on tab select */
-.tab-content h2, .tab-content p {
-  animation: fadeUp 0.5s ease forwards;
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px);}
+  100% { opacity: 1; transform: translateY(0);}
 }
 
-@keyframes fadeUp {
-  0% {opacity: 0; transform: translateY(20px);}
-  100% {opacity: 1; transform: translateY(0);}
-}
-
-.tab-content p:hover {
-  text-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
-  transform: scale(1.02);
-  transition: all 0.3s ease;
-}
-
-/* Music toggle button */
+/* ==========================
+   Music Toggle
+========================== */
 #music-toggle {
   position: fixed;
   bottom: 20px;
@@ -150,16 +159,66 @@ nav .tab.active {
   width: 50px;
   height: 50px;
   cursor: pointer;
-  z-index: 5;
+  z-index: 10;
 }
 
-#music-toggle svg {
-  width: 100%;
-  height: 100%;
-}
+/* ==========================
+   Responsive Mobile
+========================== */
+@media (max-width: 768px) {
 
-#bars line {
-  stroke: #ffd700;
-  stroke-width: 2;
-  stroke-linecap: round;
+  /* Header scaling */
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 60px;
+  }
+
+  .site-title {
+    font-size: 2rem;
+  }
+
+  .shards-balance {
+    font-size: 1rem;
+  }
+
+  .shard-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Tabs stacked vertically */
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 120px 0 20px 0;
+  }
+
+  nav .tab {
+    width: 80%;
+    margin: 5px 0;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  /* Main content width 100% */
+  main {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .tab-content {
+    font-size: 14px;
+    padding: 15px;
+  }
+
+  /* Music toggle smaller */
+  #music-toggle {
+    width: 40px;
+    height: 40px;
+    bottom: 10px;
+    right: 10px;
+  }
 }
