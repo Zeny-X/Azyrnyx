@@ -1,76 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Azyrnyx</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Azyrnyx</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="Background_loop.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-<!-- Background video -->
-<video autoplay muted loop id="bg-video">
-  <source src="Background_loop.mp4" type="video/mp4">
-</video>
+  <!-- Floating Shards -->
+  <div id="shards-container"></div>
 
-<!-- Floating golden Aether Shards -->
-<div id="shards-container"></div>
-
-<!-- Background music -->
-<audio id="bg-music" loop>
-  <source src="bg_music.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-
-<!-- Music toggle button -->
-<div id="music-toggle">
-  <svg viewBox="0 0 50 50">
-    <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
-    <g id="bars"></g>
-  </svg>
-</div>
-
-<!-- Dashboard content -->
-<div class="dashboard">
+  <!-- Header -->
   <header>
-    <h1 class="site-title">Azyrnyx</h1>
+    <div class="site-title">Azyrnyx</div>
     <div class="shards-balance">
-      <img src="shard.png" alt="Aether Shard" class="shard-icon">
-      <span>0 Aether Shards</span>
+      <img src="shard.png" alt="Aether Shard" class="shard-icon"> 
+      <span id="shard-count">0</span> Aether Shards
     </div>
   </header>
 
+  <!-- Navigation Tabs -->
   <nav>
-    <button class="tab active" data-tab="home">Home</button>
-    <button class="tab" data-tab="quests">Daily Quests</button>
-    <button class="tab" data-tab="spin">Spin</button>
-    <button class="tab" data-tab="convene">Convene</button>
+    <div class="tab active" data-tab="home">Home</div>
+    <div class="tab" data-tab="daily-quests">Daily Quests</div>
+    <div class="tab" data-tab="convene">Convene</div>
   </nav>
 
+  <!-- Main Content -->
   <main>
     <section id="home" class="tab-content active">
       <h2>Welcome, traveler</h2>
-      <p>Collect Aether Shards, solve daily puzzles, and spin the vault for unique items.</p>
+      <p>Collect Aether Shards, solve daily puzzles, and spin the Convene for unique items (wood → netherite).</p>
     </section>
 
-    <section id="quests" class="tab-content">
+    <section id="daily-quests" class="tab-content">
       <h2>Daily Quests</h2>
-      <p>Timed rewards, puzzles, and a daily login claim will appear here.</p>
-    </section>
-
-    <section id="spin" class="tab-content">
-      <h2>Gacha Spin</h2>
-      <p>Animated pulls with rarities from Common → Legendary → Mythic.</p>
+      <p>Timed rewards, puzzles, and a daily login claim. Complete quests to earn Aether Shards!</p>
     </section>
 
     <section id="convene" class="tab-content">
       <h2>Convene</h2>
-      <p>Special pulls that cost shards — rare Minecraft items as gifts.</p>
+      <p>Spin for mystical items! Rarities range from Common → Legendary. Enjoy the magical animation.</p>
     </section>
   </main>
-</div>
 
-<script src="script.js"></script>
+  <!-- Music -->
+  <audio id="bg-music" loop>
+    <source src="bg_music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music toggle -->
+  <div id="music-toggle">
+    <svg width="50" height="50">
+      <g id="bars"></g>
+      <circle cx="25" cy="25" r="22" stroke="yellow" stroke-width="2" fill="none"></circle>
+    </svg>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
