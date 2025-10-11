@@ -1,0 +1,165 @@
+/* Reset & fonts */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Background video */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px) brightness(55%);
+  z-index: -2;
+}
+
+/* Floating golden Aether Shards */
+#shards-container .shard {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd700 0%, #ffae00 100%);
+  opacity: 0.75;
+  animation: float 12s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg);}
+  50% { transform: translateY(-200px) translateX(80px) rotate(180deg);}
+  100% { transform: translateY(0) rotate(360deg);}
+}
+
+/* Dashboard container */
+.dashboard {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: fixed;
+  width: 90%;
+  max-width: 1200px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.site-title {
+  font-size: 3rem;
+  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+}
+
+.shards-balance {
+  display: flex;
+  align-items: center;
+  gap: 2px; /* tight gap */
+  font-size: 1.4rem;
+  text-shadow: 0 0 10px #ffd700;
+}
+
+.shard-icon {
+  width: 60px;  /* big */
+  height: 60px;
+}
+
+/* Navigation Tabs */
+nav {
+  margin: 120px auto 30px auto;
+  text-align: center;
+}
+
+nav .tab {
+  background: rgba(0,0,0,0.35);
+  border: 2px solid #ffd700;
+  padding: 10px 20px;
+  margin: 0 5px;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #ffd700;
+}
+
+nav .tab:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 20px #ffd700, 0 0 40px #ffae00;
+}
+
+nav .tab.active {
+  background: rgba(255, 215, 0, 0.25);
+  box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  background: rgba(0,0,0,0.35);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #ffae00;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animate content text on tab select */
+.tab-content h2, .tab-content p {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+  0% {opacity: 0; transform: translateY(20px);}
+  100% {opacity: 1; transform: translateY(0);}
+}
+
+.tab-content p:hover {
+  text-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+/* Music toggle button */
+#music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+#music-toggle svg {
+  width: 100%;
+  height: 100%;
+}
+
+#bars line {
+  stroke: #ffd700;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
