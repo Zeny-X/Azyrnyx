@@ -70,14 +70,15 @@ header {
 .shards-balance {
   display: flex;
   align-items: center;
-  gap: 2px; /* tight gap */
+  gap: 2px;
   font-size: 1.4rem;
   text-shadow: 0 0 10px #ffd700;
+  cursor: pointer;
 }
 
 .shard-icon {
-  width: 60px;  /* big */
-  height: 60px;
+  width: 70px;
+  height: 70px;
 }
 
 /* Navigation Tabs */
@@ -126,7 +127,6 @@ nav .tab.active {
   transform: translateY(0);
 }
 
-/* Animate content text on tab select */
 .tab-content h2, .tab-content p {
   animation: fadeUp 0.5s ease forwards;
 }
@@ -162,4 +162,65 @@ nav .tab.active {
   stroke: #ffd700;
   stroke-width: 2;
   stroke-linecap: round;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+/* Modal box */
+.modal-box {
+  background: rgba(0,0,0,0.45);
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 25px #ffd700;
+  text-align: center;
+  animation: modalIn 0.5s ease forwards;
+}
+
+.modal-box h2 {
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #ffd700;
+}
+
+.modal-box input {
+  padding: 10px;
+  width: 200px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.modal-box button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: #ffd700;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 10px #ffae00;
+}
+
+@keyframes modalIn {
+  0% {opacity:0; transform: scale(0.8);}
+  100% {opacity:1; transform: scale(1);}
 }
