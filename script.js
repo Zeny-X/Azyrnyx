@@ -57,7 +57,7 @@ document.body.addEventListener('click', () => {
 
 // Toggle mute/unmute
 musicToggle.addEventListener('click', (e) => {
-  e.stopPropagation(); // prevent auto unmute triggering again
+  e.stopPropagation();
   music.muted = !music.muted;
 });
 
@@ -81,3 +81,65 @@ setInterval(() => {
     line.setAttribute("y2", 25 + height / 2);
   });
 }, 300);
+
+// ============================
+// Modals (Login & Redeem)
+// ============================
+const loginModal = document.getElementById('login-modal');
+const redeemModal = document.getElementById('redeem-modal');
+const shardsDisplay = document.querySelector('#shards-display span');
+
+let user = null;
+let userShards = 0;
+
+// Show login modal if no user
+function showLogin() {
+  loginModal.classList.add('active');
+}
+
+function showRedeem() {
+  redeemModal.classList.add('active');
+}
+
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const username = document.getElementById('login-username').value.trim();
+  if (!username) return alert("Enter username");
+  // simulate backend login
+  user = username;
+  loginModal.classList.remove('active');
+  alert(`Logged in as ${user}`);
+});
+
+// Click on Shards balance to redeem
+shardsDisplay.parentElement.addEventListener('click', () => {
+  if (!user) return showLogin();
+  showRedeem();
+});
+
+document.getElementById('redeem-btn').addEventListener('click', async () => {
+  const code = document.getElementById('redeem-code').value.trim();
+  if (!code) return alert("Enter code");
+  // Call backend API
+  try {
+    const res = await fetch(`https://azyrnyx-backend.onrender.com/redeem?user=${user}&code=${code}`);
+    const data = await res.json();
+    if (data.success) {
+      userShards += data.amount;
+      shardsDisplay.textContent = `${userShards} Aether Shards`;
+      alert(`Redeemed ${data.amount} shards!`);
+      redeemModal.classList.remove('active');
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.log(err);
+    alert("Error redeeming code.");
+  }
+});
+
+// Close modals on click outside
+document.querySelectorAll('.modal-overlay').forEach(modal => {
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+});
