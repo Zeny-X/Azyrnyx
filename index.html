@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Azyrnyx</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -20,23 +20,19 @@
   <!-- Background music -->
   <audio id="bg-music" loop>
     <source src="bg_music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
-  <!-- Music toggle button -->
+  <!-- Music toggle -->
   <div id="music-toggle" title="Toggle music">
-    <svg viewBox="0 0 50 50">
-      <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
-      <g id="bars"></g>
-    </svg>
+    <svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/><g id="bars"></g></svg>
   </div>
 
-  <!-- Dashboard content -->
+  <!-- Dashboard -->
   <div class="dashboard">
     <header>
       <h1 class="site-title">Azyrnyx</h1>
-      <div class="shards-balance" id="shards-display" title="Redeem or view balance">
-        <img src="shard.png" alt="Aether Shard" class="shard-icon" id="aether-shard-icon">
+      <div class="shards-balance" id="shards-display" title="Open Redeem / Login">
+        <img src="shard.png" class="shard-icon" id="aether-shard-icon" alt="Aether Shard"/>
         <span id="shard-count">0 Aether Shards</span>
       </div>
     </header>
@@ -61,17 +57,17 @@
 
       <section id="convene" class="tab-content">
         <h2>Convene</h2>
-        <p>Special pulls that cost 16 Aether Shards per pull — rare items await the luckiest.</p>
+        <p>Special pulls that cost 16 Aether Shards per pull.</p>
       </section>
     </main>
   </div>
 
-  <!-- Overlay used by all modals -->
+  <!-- Overlay -->
   <div id="overlay"></div>
 
   <!-- LOGIN modal -->
   <div id="login-modal" class="modal" aria-hidden="true">
-    <h2>Login to Azyrnyx</h2>
+    <h2>Login</h2>
     <input type="text" id="login-username" placeholder="Username" autocomplete="username">
     <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
     <div class="modal-row">
@@ -84,8 +80,8 @@
   <!-- REDEEM modal -->
   <div id="redeem-modal" class="modal" aria-hidden="true">
     <h2>Redeem Shards</h2>
-    <p class="muted-small">Enter a redeem code to gain Aether Shards. Codes are one-use per account.</p>
-    <input type="text" id="redeem-code" placeholder="Enter code (e.g. ZENYXONTOP)">
+    <p class="muted-small">Enter redeem code.</p>
+    <input type="text" id="redeem-code" placeholder="Code (e.g. ZENYXONTOP)">
     <div class="modal-row">
       <button id="redeem-btn">Redeem</button>
       <button id="redeem-cancel" class="ghost">Close</button>
@@ -96,16 +92,14 @@
   <!-- QUEST modal -->
   <div id="quest-modal" class="modal" aria-hidden="true">
     <h2>Daily Quests</h2>
-    <div id="quest-list">
-      <!-- dynamically filled -->
-    </div>
+    <div id="quest-list"></div>
     <div class="modal-row">
       <button id="quest-close" class="ghost">Close</button>
     </div>
     <div id="quest-msg" class="modal-msg" aria-live="polite"></div>
   </div>
 
-  <!-- Logout floating button -->
+  <!-- Logout -->
   <button id="logout-btn" style="display:none;">Logout</button>
 
   <script src="script.js"></script>
