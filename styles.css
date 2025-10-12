@@ -1,18 +1,17 @@
-/* Reset & fonts */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Orbitron', sans-serif;
-  color: #fff;
-  overflow: hidden;
-}
+/* ===========================
+   Base / Reset
+   Desktop-focused
+=========================== */
+* { box-sizing: border-box; }
+html,body{height:100%;margin:0;padding:0;font-family:'Orbitron',sans-serif;background:#000; color:#fff; }
+body { overflow: hidden; }
 
-/* Background video */
+/* ===========================
+   Background Video
+=========================== */
 #bg-video {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -20,465 +19,252 @@ body, html {
   z-index: -2;
 }
 
-/* Floating golden Aether Shards */
+/* ===========================
+   Floating Aether Shards
+   small golden orbs
+=========================== */
+#shards-container { position: fixed; inset:0; pointer-events:none; z-index:-1; }
 #shards-container .shard {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffd700 0%, #ffae00 100%);
-  opacity: 0.75;
-  animation: float 12s linear infinite;
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: radial-gradient(circle,#ffd700 0%, #ffae00 100%);
+  opacity:0.75;
+  filter: drop-shadow(0 0 6px rgba(255,200,50,0.6));
+  animation: float 12s ease-in-out infinite;
 }
-
 @keyframes float {
-  0% { transform: translateY(0) rotate(0deg);}
-  50% { transform: translateY(-200px) translateX(80px) rotate(180deg);}
-  100% { transform: translateY(0) rotate(360deg);}
+  0% { transform: translateY(0) translateX(0) rotate(0deg); }
+  50% { transform: translateY(-160px) translateX(60px) rotate(180deg); }
+  100% { transform: translateY(0) translateX(0) rotate(360deg); }
 }
 
-/* Dashboard container */
-.dashboard {
-  position: relative;
-  z-index: 1;
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-top: 20px;
+/* ===========================
+   Dashboard container
+=========================== */
+.dashboard{
+  position:relative;
+  z-index:2;
+  width:90%;
+  max-width:1200px;
+  margin:0 auto;
+  padding-top:20px;
 }
 
-/* Header */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  position: fixed;
-  width: 90%;
-  max-width: 1200px;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+/* ===========================
+   Header
+=========================== */
+header{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  top:18px;
+  width:90%;
+  max-width:1200px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:10;
+}
+.site-title{
+  font-size:3rem;
+  text-shadow:0 0 10px #ffd700,0 0 20px #ffae00;
+  user-select:none;
+}
+.shards-balance{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  text-shadow:0 0 10px #ffd700;
+}
+.shard-icon{
+  width:70px;
+  height:70px;
+  display:inline-block;
+  user-select:none;
+}
+#shard-count {
+  font-size:1.25rem;
+  white-space:nowrap;
 }
 
-.site-title {
-  font-size: 3rem;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+/* ===========================
+   Navigation
+=========================== */
+nav{ margin:120px auto 30px auto; text-align:center; z-index:8; }
+nav .tab{
+  display:inline-block;
+  margin:0 6px;
+  padding:10px 20px;
+  background:rgba(0,0,0,0.35);
+  border:2px solid #ffd700;
+  color:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  transition:all .25s ease;
+  box-shadow:0 0 10px #ffd700;
 }
+nav .tab:hover{ transform: translateY(-5px) scale(1.05); box-shadow:0 0 20px #ffd700,0 0 40px #ffae00; }
+nav .tab.active{ background:rgba(255,215,0,0.2); box-shadow:0 0 25px #ffd700; transform: translateY(-5px); }
 
-.shards-balance {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 1.4rem;
-  text-shadow: 0 0 10px #ffd700;
-  cursor: pointer;
+/* ===========================
+   Main / Tab content
+=========================== */
+main{ margin-top:200px; width:80%; margin-left:auto; margin-right:auto; color:#fff; z-index:2; }
+.tab-content{
+  display:none;
+  background:rgba(0,0,0,0.35);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 0 20px #ffae00;
+  opacity:0;
+  transform:translateY(10px);
+  transition:all .4s ease;
 }
+.tab-content.active{ display:block; opacity:1; transform:translateY(0); }
+.tab-content h2, .tab-content p { animation: fadeUp .5s ease forwards; }
+@keyframes fadeUp { 0%{opacity:0;transform:translateY(20px);} 100%{opacity:1;transform:translateY(0);} }
 
-.shard-icon {
-  width: 70px;
-  height: 70px;
-}
-
-/* Navigation Tabs */
-nav {
-  margin: 120px auto 30px auto;
-  text-align: center;
-}
-
-nav .tab {
-  background: rgba(0,0,0,0.35);
-  border: 2px solid #ffd700;
-  padding: 10px 20px;
-  margin: 0 5px;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #ffd700;
-}
-
-nav .tab:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 0 20px #ffd700, 0 0 40px #ffae00;
-}
-
-nav .tab.active {
-  background: rgba(255, 215, 0, 0.25);
-  box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
-}
-
-/* Tab Content */
-.tab-content {
-  display: none;
-  background: rgba(0,0,0,0.35);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #ffae00;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease;
-}
-
-.tab-content.active {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.tab-content h2, .tab-content p {
-  animation: fadeUp 0.5s ease forwards;
-}
-
-@keyframes fadeUp {
-  0% {opacity: 0; transform: translateY(20px);}
-  100% {opacity: 1; transform: translateY(0);}
-}
-
-.tab-content p:hover {
-  text-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
-  transform: scale(1.02);
-  transition: all 0.3s ease;
-}
-
-/* Music toggle button */
-#music-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  z-index: 5;
-}
-
-#music-toggle svg {
-  width: 100%;
-  height: 100%;
-}
-
-#bars line {
-  stroke: #ffd700;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-/* Modal overlay */
-.modal-overlay {
-  position: fixed;
-  top:0;
-  left:0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(6px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.modal-overlay.active {
-  display: flex;
-}
-
-/* Modal box */
-.modal-box {
-  background: rgba(0,0,0,0.45);
-  padding: 30px;
-  border-radius: 15px;
-  border: 2px solid #ffd700;
-  box-shadow: 0 0 25px #ffd700;
-  text-align: center;
-  animation: modalIn 0.5s ease forwards;
-}
-
-.modal-box h2 {
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px #ffd700;
-}
-
-.modal-box input {
-  padding: 10px;
-  width: 200px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  font-family: 'Orbitron', sans-serif;
-}
-
-.modal-box button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  background: #ffd700;
-  color: #000;
-  font-weight: bold;
-  box-shadow: 0 0 10px #ffae00;
-}
-
-@keyframes modalIn {
-  0% {opacity:0; transform: scale(0.8);}
-  100% {opacity:1; transform: scale(1);}
-}
-
-/* Modal container */
-#modal-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(5px) brightness(0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-
-#modal-container.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* Modal content */
-.modal-content {
-  background: rgba(0,0,0,0.75);
-  border: 2px solid #ffd700;
-  padding: 20px;
-  border-radius: 15px;
-  min-width: 300px;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 0 25px #ffd700, 0 0 50px #ffae00;
-  animation: modalFade 0.3s ease forwards;
-}
-
-@keyframes modalFade {
-  0% { transform: translateY(-20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-.modal-content input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  margin: 10px 0;
-  width: 80%;
-}
-
-.modal-content button {
-  background: rgba(255, 215, 0, 0.25);
-  border: 2px solid #ffd700;
-  color: #fff;
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.modal-content button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 0 15px #ffd700, 0 0 30px #ffae00;
-}
-
-.modal-message {
-  margin: 5px 0 10px;
-  min-height: 20px;
-  font-size: 0.9rem;
-}
-
-.modal-message.success {
-  color: #00ffea;
-  text-shadow: 0 0 8px #00ffea, 0 0 15px #00aabb;
-}
-
-.modal-message.error {
-  color: #ff5c5c;
-  text-shadow: 0 0 8px #ff5c5c, 0 0 15px #aa0000;
-}
-
-/* Close button specific style */
-.close-btn {
-  background: rgba(255,0,0,0.3);
-  border: 1px solid #ff5c5c;
-}
-.close-btn:hover {
-  background: rgba(255,0,0,0.5);
-}
-
-/* ================================
-   Modal Overlay (background blur)
-=================================== */
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(8px);
-  background: rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 90;
-}
-
-#overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* ================================
-   Modal Containers
-=================================== */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  background: rgba(30, 30, 40, 0.85);
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
-  max-width: 380px;
-  width: 90%;
-  text-align: center;
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 215, 0, 0.15);
-}
-
-.modal.active {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  visibility: visible;
-}
-
-/* ================================
-   Modal Headers
-=================================== */
-.modal h2 {
-  font-size: 1.6rem;
-  color: gold;
-  margin-bottom: 15px;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
-}
-
-/* ================================
-   Input Fields
-=================================== */
-.modal input[type="text"],
-.modal input[type="password"] {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 8px;
-  outline: none;
-  transition: border 0.2s ease, background 0.2s ease;
-}
-
-.modal input[type="text"]:focus,
-.modal input[type="password"]:focus {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: gold;
-}
-
-/* ================================
-   Buttons (Unified style)
-=================================== */
-.modal button,
+/* View Quests button theme (matches modals) */
 .view-quests-btn {
-  margin-top: 10px;
-  padding: 10px 18px;
-  background: linear-gradient(135deg, gold, #d4af37);
-  color: #000;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  margin-top:12px;
+  padding:10px 18px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+  background: linear-gradient(135deg,#ffd700,#d4af37);
+  color:#000;
+  box-shadow:0 0 12px rgba(255,215,0,0.25);
+  transition: transform .18s ease;
+}
+.view-quests-btn:hover{ transform: translateY(-3px) scale(1.03); }
+
+/* ===========================
+   Music toggle
+=========================== */
+#music-toggle{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:50px;
+  height:50px;
+  z-index:30;
+  cursor:pointer;
+}
+#music-toggle svg{ width:100%; height:100%; }
+#bars line{ stroke:#ffd700; stroke-width:2; stroke-linecap:round; }
+
+/* ===========================
+   Logout button
+=========================== */
+#logout-btn{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,215,0,0.3);
+  background:rgba(0,0,0,0.6);
+  color:gold;
+  display:none;
+  z-index:30;
+  cursor:pointer;
 }
 
-.modal button:hover,
-.view-quests-btn:hover {
-  background: linear-gradient(135deg, #ffe066, gold);
-  transform: translateY(-2px);
+/* ===========================
+   MODALS & OVERLAY (Mystical look)
+   Desktop-only
+=========================== */
+#overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px) brightness(0.6);
+  opacity:0;
+  visibility:hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+  z-index:90;
+}
+#overlay.active{ opacity:1; visibility:visible; }
+
+/* Base modal */
+.modal{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(.95);
+  min-width:320px;
+  max-width:420px;
+  width:38%;
+  background: rgba(12,12,18,0.92);
+  border-radius:14px;
+  padding:22px;
+  border:1px solid rgba(255,215,0,0.12);
+  box-shadow: 0 0 25px rgba(255,215,0,0.08), inset 0 0 40px rgba(255,215,0,0.02);
+  color:#fff;
+  z-index:100;
+  opacity:0;
+  visibility:hidden;
+  transition: all .22s ease;
+}
+.modal.active{ opacity:1; visibility:visible; transform:translate(-50%,-50%) scale(1); }
+
+/* Modal header */
+.modal h2{ color: gold; font-size:1.4rem; margin:0 0 12px 0; text-shadow:0 0 10px rgba(255,215,0,0.25); }
+
+/* Inputs inside modals */
+.modal input[type="text"], .modal input[type="password"]{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(255,215,0,0.12);
+  background: rgba(255,255,255,0.02);
+  color:#fff;
+  margin:8px 0;
+  outline:none;
+  transition: border .15s ease, background .15s ease;
+}
+.modal input:focus{ border-color: gold; background: rgba(255,255,255,0.03); }
+
+/* modal row of buttons */
+.modal .modal-row { display:flex; justify-content:center; gap:12px; margin-top:12px; }
+
+/* Buttons (modal + global) */
+.modal button, .view-quests-btn {
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background: linear-gradient(135deg,#ffd700,#d4af37);
+  color:#000;
+  font-weight:800;
+  box-shadow:0 0 14px rgba(255,200,50,0.18);
+}
+.modal button.ghost {
+  background: transparent;
+  border: 1px solid rgba(255,215,0,0.08);
+  color: #ffd700;
+  font-weight:700;
 }
 
-/* ================================
-   Messages inside modals
-=================================== */
-#login-msg,
-#redeem-msg,
-#quest-msg {
-  margin-top: 10px;
-  font-size: 0.95rem;
-  color: #ffdf85;
-  min-height: 18px;
-}
+/* small text */
+.muted-small { color: #cfcfcf; font-size:0.9rem; margin-bottom:8px; }
 
-/* ================================
-   Quest Modal Styling
-=================================== */
-#quest-content {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  color: #eee;
-  font-size: 1rem;
-  line-height: 1.4;
-}
+/* modal messages */
+.modal-msg { margin-top:10px; min-height:20px; font-size:0.95rem; color:#ffdf85; opacity:1; transition:opacity .2s ease; }
+.modal-msg.success { color: #6ef0d6; text-shadow:0 0 8px #6ef0d6; }
+.modal-msg.error { color: #ff8b8b; text-shadow:0 0 8px #ff8b8b; }
 
-/* ================================
-   Logout Button (optional)
-=================================== */
-#logout-btn {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  padding: 8px 14px;
-  background: rgba(255, 215, 0, 0.2);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: gold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  z-index: 99;
-}
+/* Quest list styling */
+#quest-list { margin-top:10px; display:flex; flex-direction:column; gap:10px; }
+.quest-item { background: rgba(255,255,255,0.02); padding:12px; border-radius:10px; border:1px solid rgba(255,215,0,0.06); display:flex; justify-content:space-between; align-items:center; }
+.quest-item .desc { max-width:70%; color:#eee; }
 
-#logout-btn:hover {
-  background: rgba(255, 215, 0, 0.35);
-}
-
-/* ================================
-   Smooth fade for modals
-=================================== */
-.modal,
-#overlay {
-  animation: fadeIn 0.3s ease forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* small responsive desktop tweak (only large screens) */
+@media(min-width:1500px) {
+  .modal { width: 30%; max-width: 520px; }
 }
