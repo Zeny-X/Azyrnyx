@@ -1,73 +1,124 @@
-/* ========== Base / Desktop-only ========== */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0;font-family:'Orbitron',sans-serif;background:#000;color:#fff;overflow:hidden}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Background video */
-#bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(2px) brightness(55%);z-index:-5}
+body {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  overflow: hidden;
+}
 
-/* Floating shards container */
-#shards-container{position:fixed;inset:0;pointer-events:none;z-index:-1}
-#shards-container .shard{position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle,#ffd700 0%,#ffae00 100%);opacity:0.75;filter:drop-shadow(0 0 6px rgba(255,200,50,0.6));animation:float 12s ease-in-out infinite}
-@keyframes float{0%{transform:translateY(0) translateX(0) rotate(0)}50%{transform:translateY(-160px) translateX(60px) rotate(180deg)}100%{transform:translateY(0) translateX(0) rotate(360deg)}}
+#bg-video {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -3;
+}
 
-/* Dashboard */
-.dashboard{position:relative;z-index:2;width:90%;max-width:1200px;margin:0 auto;padding-top:20px}
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: none;
+  z-index: 10;
+}
 
-/* Header */
-header{position:fixed;left:50%;transform:translateX(-50%);top:18px;width:90%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;z-index:10}
-.site-title{font-size:3rem;text-shadow:0 0 10px #ffd700,0 0 20px #ffae00;user-select:none}
-.shards-balance{display:flex;align-items:center;gap:8px;cursor:pointer;text-shadow:0 0 10px #ffd700}
-.shard-icon{width:70px;height:70px;display:inline-block;user-select:none}
-#shard-count{font-size:1.25rem;white-space:nowrap}
+.modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  border: 2px solid #ffd700;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 11;
+  min-width: 300px;
+  border-radius: 10px;
+  text-align: center;
+}
 
-/* Nav */
-nav{margin:120px auto 30px auto;text-align:center;z-index:8}
-nav .tab{display:inline-block;margin:0 6px;padding:10px 20px;background:rgba(0,0,0,0.35);border:2px solid #ffd700;color:#fff;border-radius:10px;cursor:pointer;font-weight:700;transition:all .25s ease;box-shadow:0 0 10px #ffd700}
-nav .tab:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 0 20px #ffd700,0 0 40px #ffae00}
-nav .tab.active{background:rgba(255,215,0,0.2);box-shadow:0 0 25px #ffd700;transform:translateY(-5px)}
+.modal input {
+  padding: 8px;
+  background: black;
+  border: 1px solid #ffd700;
+  color: white;
+  text-align: center;
+}
 
-/* Main / tabs */
-main{margin-top:200px;width:80%;margin-left:auto;margin-right:auto;color:#fff;z-index:2}
-.tab-content{display:none;background:rgba(0,0,0,0.35);padding:20px;border-radius:15px;box-shadow:0 0 20px #ffae00;opacity:0;transform:translateY(10px);transition:all .4s ease}
-.tab-content.active{display:block;opacity:1;transform:translateY(0)}
-.tab-content h2,.tab-content p{animation:fadeUp .5s ease forwards}
-@keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+.modal button {
+  padding: 8px;
+  background: #ffd700;
+  color: black;
+  cursor: pointer;
+  border: none;
+}
 
-/* View Quests button */
-.view-quests-btn{margin-top:12px;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:700;background:linear-gradient(135deg,#ffd700,#d4af37);color:#000;box-shadow:0 0 12px rgba(255,215,0,0.25);transition:transform .18s ease}
-.view-quests-btn:hover{transform:translateY(-3px) scale(1.03)}
+.modal div {
+  margin-top: 5px;
+  font-size: 14px;
+}
 
-/* Music toggle */
-#music-toggle{position:fixed;bottom:20px;right:20px;width:50px;height:50px;z-index:30;cursor:pointer}
-#music-toggle svg{width:100%;height:100%}
-#bars line{stroke:#ffd700;stroke-width:2;stroke-linecap:round}
+#login-msg, #redeem-msg {
+  min-height: 20px;
+}
 
-/* Logout button */
-#logout-btn{position:fixed;bottom:20px;left:20px;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,215,0,0.3);background:rgba(0,0,0,0.6);color:gold;display:none;z-index:30;cursor:pointer}
+.dashboard {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
 
-/* Overlay */
-#overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px) brightness(0.6);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;z-index:90}
-#overlay.active{opacity:1;visibility:visible}
+nav {
+  margin-top: 15px;
+}
 
-/* Modal base */
-.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);min-width:320px;max-width:420px;width:38%;background:rgba(12,12,18,0.92);border-radius:14px;padding:22px;border:1px solid rgba(255,215,0,0.12);box-shadow:0 0 25px rgba(255,215,0,0.08);color:#fff;z-index:100;opacity:0;visibility:hidden;transition:all .22s ease}
-.modal.active{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
-.modal h2{color:gold;font-size:1.4rem;margin:0 0 12px 0;text-shadow:0 0 10px rgba(255,215,0,0.25)}
-.modal input[type="text"],.modal input[type="password"]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,215,0,0.12);background:rgba(255,255,255,0.02);color:#fff;margin:8px 0;outline:none}
-.modal input:focus{border-color:gold;background:rgba(255,255,255,0.03)}
-.modal .modal-row{display:flex;justify-content:center;gap:12px;margin-top:12px}
-.modal button,.view-quests-btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,#ffd700,#d4af37);color:#000;font-weight:800;box-shadow:0 0 14px rgba(255,200,50,0.18)}
-.modal button.ghost{background:transparent;border:1px solid rgba(255,215,0,0.08);color:#ffd700;font-weight:700}
-.muted-small{color:#cfcfcf;font-size:0.9rem;margin-bottom:8px}
-.modal-msg{margin-top:10px;min-height:20px;font-size:0.95rem;color:#ffdf85;opacity:1;transition:opacity .2s ease}
-.modal-msg.success{color:#6ef0d6;text-shadow:0 0 8px #6ef0d6}
-.modal-msg.error{color:#ff8b8b;text-shadow:0 0 8px #ff8b8b}
+nav button {
+  background: transparent;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+}
 
-/* Quest list */
-#quest-list{margin-top:10px;display:flex;flex-direction:column;gap:10px}
-.quest-item{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,215,0,0.06);display:flex;justify-content:space-between;align-items:center}
-.quest-item .desc{max-width:70%;color:#eee}
-.quest-item button{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(135deg,#ffd700,#d4af37);font-weight:700;cursor:pointer}
+nav button.active {
+  background: #ffd700;
+  color: black;
+}
 
-/* Desktop tweak */
-@media(min-width:1500px){.modal{width:30%;max-width:520px}}
+#open-quests {
+  padding: 10px 20px;
+  background: #ffd700;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.shards-balance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shard-icon {
+  width: 24px;
+  height: 24px;
+}
+
+#logout-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}
