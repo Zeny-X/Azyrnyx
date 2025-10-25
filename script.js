@@ -1,5 +1,5 @@
 // ---------- Config ----------
-const BACKEND_BASE = 'https://azyrnyx-backend.onrender.com'; // change if different
+const BACKEND_BASE = 'https://azyrnyx-backend.onrender.com'; // change if needed
 
 // ---------- Elements ----------
 const overlay = document.getElementById('overlay');
@@ -32,7 +32,7 @@ const music = document.getElementById('bg-music');
 const musicToggle = document.getElementById('music-toggle');
 const barsContainer = document.getElementById('bars');
 
-// ---------- UI helpers ----------
+// ---------- Helpers ----------
 function openModal(modal){
   overlay.classList.add('active');
   modal.classList.add('active');
@@ -54,12 +54,12 @@ function showModalMessage(el, text, type='success'){
   setTimeout(()=> { el.textContent=''; el.classList.remove('success','error'); }, 3500);
 }
 
-// ---------- Session storage ----------
+// ---------- Session ----------
 function getSession(){ try{ return JSON.parse(localStorage.getItem('azy_session')); }catch(e){return null;} }
 function setSession(obj){ localStorage.setItem('azy_session', JSON.stringify(obj)); }
 function clearSession(){ localStorage.removeItem('azy_session'); }
 
-// ---------- Update UI ----------
+// ---------- UI update ----------
 function updateUI(){
   const s = getSession();
   if (s && s.username){
@@ -99,7 +99,6 @@ tabs.forEach(tab => tab.addEventListener('click', ()=> {
 
 // ---------- Music visualiser & autoplay ----------
 (function createVisualizer(){
-  // create 4 bars inside #bars
   for (let i=0;i<4;i++){
     const ln = document.createElementNS("http://www.w3.org/2000/svg","line");
     ln.setAttribute('x1', 14 + i*8);
@@ -110,7 +109,7 @@ tabs.forEach(tab => tab.addEventListener('click', ()=> {
   }
   setInterval(()=> {
     const lines = barsContainer.querySelectorAll('line');
-    lines.forEach(line => {
+    lines.forEach(line=>{
       const h = 6 + Math.random()*22;
       line.setAttribute('y1', 25 - h/2);
       line.setAttribute('y2', 25 + h/2);
@@ -118,72 +117,56 @@ tabs.forEach(tab => tab.addEventListener('click', ()=> {
   }, 260);
 })();
 
-// ensure playback starts on first user interaction (most browsers require a gesture)
-document.body.addEventListener('click', function _once(){
-  document.body.removeEventListener('click', _once);
+// Start music after first gesture (browser policy)
+document.body.addEventListener('click', function _one(){
+  document.body.removeEventListener('click', _one);
   music.play().catch(()=>{});
 }, { once:true });
 
-// toggle mute/unmute when clicking the visualiser
 musicToggle.addEventListener('click', (e)=>{
   e.stopPropagation();
   music.muted = !music.muted;
 });
 
-// ---------- Backend API helpers ----------
-async function api(path, body){
+// ---------- Backend helpers ----------
+async function apiPost(path, body){
   try {
-    const res = await fetch(`${BACKEND_BASE}${path}`, {
+    const r = await fetch(`${BACKEND_BASE}${path}`, {
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
       body: JSON.stringify(body)
     });
-    const j = await res.json();
-    return { ok: res.ok, json: j };
+    const j = await r.json();
+    return { ok: r.ok, json: j };
   } catch(e){
     return { ok:false, json:{ error: 'Network error' } };
   }
 }
 
-async function apiLogin(username, password){
-  return await api('/api/login', { username, password });
-}
-async function apiRedeem(username, token, code){
-  return await api('/api/redeem', { username, token, code });
-}
-async function apiBalance(username, token){
-  return await api('/api/balance', { username, token });
-}
-async function apiClaimQuest(username, token, questId, reward){
-  return await api('/api/claim-quest', { username, token, questId, reward });
-}
+async function apiLogin(username, password){ return await apiPost('/api/login', { username, password }); }
+async function apiBalance(username, token){ return await apiPost('/api/balance', { username, token }); }
+async function apiRedeem(username, token, code){ return await apiPost('/api/redeem', { username, token, code }); }
+async function apiClaimQuest(username, token, questId, reward){ return await apiPost('/api/claim-quest', { username, token, questId, reward }); }
 
-// ---------- Login flow ----------
+// ---------- Login ----------
 loginBtn.addEventListener('click', async ()=>{
   const username = loginUsername.value.trim();
   const password = loginPassword.value.trim();
   if (!username || !password){ showModalMessage(loginMsg, 'Enter username & password', 'error'); return; }
-
   const res = await apiLogin(username, password);
-  if (!res.ok){
-    const err = res.json && (res.json.error || res.json.message) || 'Login failed';
-    showModalMessage(loginMsg, `Login failed: ${err}`, 'error');
-    return;
-  }
-  // success — server returns token & shards
+  if (!res.ok){ showModalMessage(loginMsg, `Login failed: ${res.json && (res.json.error || res.json.message) || 'Unknown'}`, 'error'); return; }
+  // success
   const token = res.json.token || null;
-  const shards = typeof res.json.shards === 'number' ? res.json.shards : 0;
+  const shards = (typeof res.json.shards === 'number') ? res.json.shards : 0;
   setSession({ username, token, shards });
   updateUI();
   showModalMessage(loginMsg, 'Login successful', 'success');
-  setTimeout(()=> closeModal(loginModal), 600);
+  setTimeout(()=> closeModal(loginModal), 650);
 });
-
-// login cancel
 loginCancel.addEventListener('click', ()=> closeModal(loginModal));
 
-// logout
-logoutBtn.addEventListener('click', ()=>{
+// ---------- Logout ----------
+logoutBtn.addEventListener('click', ()=> {
   clearSession();
   updateUI();
   showModalMessage(redeemMsg, 'Logged out', 'success');
@@ -199,25 +182,16 @@ shardsDisplay.addEventListener('click', async ()=>{
   openModal(redeemModal);
 });
 
-// redeem
+// ---------- Redeem ----------
 redeemBtn.addEventListener('click', async ()=>{
   const code = redeemCodeInput.value.trim();
   const s = getSession();
-  if (!s || !s.username || !s.token){ showModalMessage(redeemMsg, 'Please log in first', 'error'); return; }
+  if (!s || !s.username || !s.token){ showModalMessage(redeemMsg, 'Please log in first', 'error'); setTimeout(()=>{ closeModal(redeemModal); openModal(loginModal); },700); return; }
   if (!code){ showModalMessage(redeemMsg, 'Enter a code', 'error'); return; }
-
   showModalMessage(redeemMsg, 'Checking code...', 'success');
   const r = await apiRedeem(s.username, s.token, code);
-  if (r.ok){
-    const shards = typeof r.json.shards === 'number' ? r.json.shards : s.shards || 0;
-    setSession({ username: s.username, token: s.token, shards });
-    updateUI();
-    showModalMessage(redeemMsg, r.json.message || 'Redeemed!', 'success');
-    redeemCodeInput.value = '';
-    setTimeout(()=> closeModal(redeemModal), 900);
-  } else {
-    showModalMessage(redeemMsg, (r.json && (r.json.error || r.json.message)) || 'Invalid code', 'error');
-  }
+  if (r.ok){ const shards = typeof r.json.shards === 'number' ? r.json.shards : s.shards || 0; setSession({ username: s.username, token: s.token, shards }); updateUI(); showModalMessage(redeemMsg, r.json.message || 'Redeemed!', 'success'); redeemCodeInput.value=''; setTimeout(()=> closeModal(redeemModal),900); }
+  else { showModalMessage(redeemMsg, (r.json && (r.json.error || r.json.message)) || 'Invalid code', 'error'); }
 });
 redeemCancel.addEventListener('click', ()=> closeModal(redeemModal));
 
@@ -226,7 +200,7 @@ const DAILY_QUESTS = [
   { id:'daily_login', title:'Daily Login', desc:'Claim daily login', reward:5, type:'instant' },
   { id:'stay_20', title:'Stay 20s', desc:'Stay on the page for 20 seconds', reward:8, type:'timed', duration:20 },
   { id:'puzzle', title:'Puzzle', desc:'Solve a quick puzzle', reward:15, type:'puzzle' },
-  { id:'survey', title:'Survey', desc:'Answer a short survey (1/day)', reward:30, type:'survey' }
+  { id:'survey', title:'Survey', desc:'Answer a short survey', reward:30, type:'survey' }
 ];
 
 function getClaimedLocal(username){ try{ return JSON.parse(localStorage.getItem(`azy_claims_${username}`)) || {}; }catch(e){return {}; } }
@@ -283,7 +257,6 @@ async function attemptQuestClaim(questId, reward, btnElem){
     btnElem.disabled = true;
     const claimed = getClaimedLocal(s.username); claimed[questId] = Date.now(); setClaimedLocal(s.username, claimed);
   } else {
-    // fallback local
     const claimed = getClaimedLocal(s.username);
     if (claimed[questId]){ showModalMessage(questMsg,'Already claimed','error'); btnElem.disabled = true; return; }
     s.shards = (s.shards||0) + reward;
@@ -295,7 +268,7 @@ async function attemptQuestClaim(questId, reward, btnElem){
   }
 }
 
-// open quests
+// open quests button
 openQuestsBtn.addEventListener('click', ()=> {
   const s = getSession();
   if (!s || !s.username || !s.token) { openModal(loginModal); return; }
@@ -306,7 +279,7 @@ questCloseBtn.addEventListener('click', ()=> closeModal(questModal));
 
 // ---------- Init ----------
 window.addEventListener('DOMContentLoaded', async ()=>{
-  // Sync session with server if session exists
+  // sync if session exists
   const s = getSession();
   if (s && s.username && s.token){
     const bal = await apiBalance(s.username, s.token);
