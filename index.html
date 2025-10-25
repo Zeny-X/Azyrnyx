@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Azyrnyx</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -13,81 +13,97 @@
     <source src="Background_loop.mp4" type="video/mp4">
   </video>
 
+  <!-- Floating golden Aether Shards -->
+  <div id="shards-container"></div>
+
   <!-- Background music -->
   <audio id="bg-music" loop>
     <source src="bg_music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Music toggle -->
-  <div id="music-toggle"></div>
+  <!-- Music toggle (visualiser inside) -->
+  <div id="music-toggle" title="Toggle music (click anywhere to start playback)">
+    <svg viewBox="0 0 50 50" preserveAspectRatio="xMidYMid meet">
+      <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none" />
+      <g id="bars"></g>
+    </svg>
+  </div>
 
-  <!-- Header -->
-  <header>
-    <h1 class="site-title">Azyrnyx</h1>
-    <div id="shards-display" class="shards-display">
-      <img src="shard.png" class="shard-icon" alt="shard">
-      <span id="shards-count">0 Aether Shards</span>
-    </div>
-  </header>
-
-  <!-- Navigation -->
-  <nav>
-    <button class="tab active" data-tab="home">Home</button>
-    <button class="tab" data-tab="quests">Daily Quests</button>
-    <button class="tab" data-tab="convene">Convene</button>
-  </nav>
-
-  <!-- Tab Content -->
-  <main>
-    <section id="home" class="tab-content active">
-      <div class="glow-box">
-        <h2>Welcome, traveler</h2>
-        <p>Collect Aether Shards, solve daily puzzles, and spin the vault for unique items.</p>
+  <!-- Dashboard content -->
+  <div class="dashboard">
+    <header>
+      <h1 class="site-title">Azyrnyx</h1>
+      <div class="shards-balance" id="shards-display" title="Click to login / redeem">
+        <img src="shard.png" alt="Aether Shard" class="shard-icon" id="aether-shard-icon">
+        <span id="shard-count">0 Aether Shards</span>
       </div>
-    </section>
+    </header>
 
-    <section id="quests" class="tab-content">
-      <div class="glow-box">
-        <h2>Daily Quests</h2>
-        <p>Complete quests every day to earn Aether Shards!</p>
-        <button id="open-quests">View Quests</button>
-      </div>
-    </section>
+    <nav>
+      <button class="tab active" data-tab="home">Home</button>
+      <button class="tab" data-tab="quests">Daily Quests</button>
+      <button class="tab" data-tab="convene">Convene</button>
+    </nav>
 
-    <section id="convene" class="tab-content">
-      <div class="glow-box">
-        <h2>Convene</h2>
-        <p>Special pulls that cost shards — rare Minecraft items as gifts.</p>
-      </div>
-    </section>
-  </main>
+    <main>
+      <section id="home" class="tab-content active">
+        <div class="glow-box">
+          <h2>Welcome, traveler</h2>
+          <p>Collect Aether Shards, solve daily puzzles, and Convene for unique items.</p>
+        </div>
+      </section>
 
-  <!-- Overlay -->
+      <section id="quests" class="tab-content">
+        <div class="glow-box">
+          <h2>Daily Quests</h2>
+          <p>Complete quests every day to earn Aether Shards! Rewards vary by difficulty. Unclaimed rewards expire after 12 hours.</p>
+          <button class="view-quests-btn" id="open-quests">View Quests</button>
+        </div>
+      </section>
+
+      <section id="convene" class="tab-content">
+        <div class="glow-box">
+          <h2>Convene</h2>
+          <p>Special pulls cost 16 Aether Shards per pull.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Overlay for modals -->
   <div id="overlay"></div>
 
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <h2>Login to Azyrnyx</h2>
-    <input type="text" id="login-username" placeholder="Username">
-    <input type="password" id="login-password" placeholder="Password">
-    <button id="login-btn">Login</button>
-    <div class="modal-msg" id="login-msg"></div>
+  <!-- Login Modal (glow style) -->
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <h2>Login</h2>
+    <input id="login-username" type="text" placeholder="Username" autocomplete="username" />
+    <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+    <div class="modal-row">
+      <button id="login-btn">Login</button>
+      <button id="login-cancel" class="ghost">Cancel</button>
+    </div>
+    <div id="login-msg" class="modal-msg" aria-live="polite"></div>
   </div>
 
   <!-- Redeem Modal -->
-  <div id="redeem-modal" class="modal">
+  <div id="redeem-modal" class="modal" aria-hidden="true">
     <h2>Redeem Aether Shards</h2>
-    <input type="text" id="redeem-code" placeholder="Enter Code">
-    <button id="redeem-btn">Redeem</button>
-    <div class="modal-msg" id="redeem-msg"></div>
+    <input id="redeem-code" type="text" placeholder="Enter code (e.g. ZENYXONTOP)" />
+    <div class="modal-row">
+      <button id="redeem-btn">Redeem</button>
+      <button id="redeem-cancel" class="ghost">Close</button>
+    </div>
+    <div id="redeem-msg" class="modal-msg" aria-live="polite"></div>
   </div>
 
   <!-- Quest Modal -->
-  <div id="quest-modal" class="modal">
-    <h2>Daily Quest</h2>
-    <p>Claim your reward for completing today's quest!</p>
-    <button id="claim-quest-btn">Claim Reward</button>
-    <div class="modal-msg" id="quest-msg"></div>
+  <div id="quest-modal" class="modal" aria-hidden="true">
+    <h2>Daily Quests</h2>
+    <div id="quest-list"></div>
+    <div class="modal-row">
+      <button id="quest-close" class="ghost">Close</button>
+    </div>
+    <div id="quest-msg" class="modal-msg" aria-live="polite"></div>
   </div>
 
   <!-- Logout -->
