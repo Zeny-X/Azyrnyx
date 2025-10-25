@@ -9,7 +9,7 @@
 </head>
 <body>
   <!-- Background video -->
-  <video autoplay muted loop id="bg-video">
+  <video autoplay muted loop id="bg-video" playsinline>
     <source src="Background_loop.mp4" type="video/mp4">
   </video>
 
@@ -21,15 +21,13 @@
     <source src="bg_music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Music toggle (visualiser inside) -->
-  <div id="music-toggle" title="Toggle music (click anywhere to start playback)">
-    <svg viewBox="0 0 50 50" preserveAspectRatio="xMidYMid meet">
-      <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none" />
-      <g id="bars"></g>
-    </svg>
-  </div>
+  <!-- Music toggle (visualiser) -->
+  <div id="music-toggle" title="Toggle music (click to toggle)"><svg viewBox="0 0 50 50" preserveAspectRatio="xMidYMid meet">
+    <circle cx="25" cy="25" r="20" stroke="#ffd700" stroke-width="3" fill="none"/>
+    <g id="bars" transform="translate(0,0)"></g>
+  </svg></div>
 
-  <!-- Dashboard content -->
+  <!-- Dashboard -->
   <div class="dashboard">
     <header>
       <h1 class="site-title">Azyrnyx</h1>
@@ -70,10 +68,10 @@
     </main>
   </div>
 
-  <!-- Overlay for modals -->
+  <!-- Overlay -->
   <div id="overlay"></div>
 
-  <!-- Login Modal (glow style) -->
+  <!-- Login Modal -->
   <div id="login-modal" class="modal" aria-hidden="true">
     <h2>Login</h2>
     <input id="login-username" type="text" placeholder="Username" autocomplete="username" />
@@ -96,7 +94,7 @@
     <div id="redeem-msg" class="modal-msg" aria-live="polite"></div>
   </div>
 
-  <!-- Quest Modal -->
+  <!-- Quest Modal (Option A: slide-up like panel; looks centered but small) -->
   <div id="quest-modal" class="modal" aria-hidden="true">
     <h2>Daily Quests</h2>
     <div id="quest-list"></div>
